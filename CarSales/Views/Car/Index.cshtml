@@ -1,0 +1,25 @@
+﻿
+<h1>Cars for Sale</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model)
+        {
+            <tr>
+                <td>@car.Make</td>
+                <td>@car.Model</td>
+                <td>@car.Year</td>
+                <td>@car.Price.ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
