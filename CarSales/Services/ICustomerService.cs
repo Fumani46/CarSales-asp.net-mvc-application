@@ -10,7 +10,7 @@ namespace CarSales.Services
 
 		public Customer GetById(int id);
 
-		public void Add(Customer customer);
+		public Task AddCustomer(Customer customer);
 
 		public Task<Customer> GetUserByEmail(string email);
 	}

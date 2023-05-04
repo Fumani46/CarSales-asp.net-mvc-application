@@ -15,10 +15,10 @@ namespace CarSales.Services
 			_context = context;
 		}
 
-		public void Add(Customer customer)
+		public async Task AddCustomer(Customer customer)
 		{
 			_context.Customers.Add(customer);
-			_context.SaveChanges();
+			await _context.SaveChangesAsync();
 		}
 
 		public async Task<List<Customer>> GetAll()

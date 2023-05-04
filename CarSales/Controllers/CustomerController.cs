@@ -1,9 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using CarSales.Data;
 using CarSales.Models;
 using CarSales.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CarSales.Controllers
 {
@@ -12,12 +15,14 @@ namespace CarSales.Controllers
         private readonly UserManager<Customer> _userManager;
         private readonly SignInManager<Customer> _signInManager;
         private readonly ICustomerService _service;
+        private readonly AppDbContext _context;
 
-        public CustomerController(ICustomerService service/*UserManager<Customer> userManager, SignInManager<Customer> signInManager, */)
+        public CustomerController(ICustomerService service, AppDbContext context/*UserManager<Customer> userManager, SignInManager<Customer> signInManager, */)
         {
            // _userManager = userManager;
             //_signInManager = signInManager;
             _service = service;
+            _context = context;
         }
 
         public async Task<IActionResult> Index()
@@ -37,20 +42,34 @@ namespace CarSales.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError(string.Empty, "Error");
                 return View(customer);
             }
 
-            //var user = await _userManager.FindByEmailAsync(customer.Email);
-            var user = await _service.GetUserByEmail(customer.Email);
-            if (user != null)
+            IDbContextTransaction transaction = _context.Database.BeginTransaction();
+            try
             {
-                ModelState.AddModelError(string.Empty,"This email address is already in use");
-                //TempData["Error"] = "This email address is already in use";
+                //var user = await _userManager.FindByEmailAsync(customer.Email);
+                var user = await _service.GetUserByEmail(customer.Email);
+                if (user != null)
+                {
+                    ModelState.AddModelError(string.Empty, "This email address is already in use");
+                    //TempData["Error"] = "This email address is already in use";
+                    return View(customer);
+                }
+
+                await _service.AddCustomer(customer);
+                transaction.Commit();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                ModelState.AddModelError(string.Empty, "Something went wrong :(");
+
                 return View(customer);
             }
-
-            _service.Add(customer);
-            return RedirectToAction(nameof(Index));
         }
 
 
@@ -68,7 +87,7 @@ namespace CarSales.Controllers
             {
                 return View(customer);
             }
-            _service.Add(customer);
+            //_service.AddCustomer(customer);
             return RedirectToAction(nameof(Index));
         }
 
