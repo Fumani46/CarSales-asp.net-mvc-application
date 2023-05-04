@@ -1,5 +1,5 @@
 using CarSales.Data;
-using CarSales.Data.Services;
+using CarSales.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

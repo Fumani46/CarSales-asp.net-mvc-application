@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using CarSales.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using CarSales.Data;
 
-namespace CarSales.Data.Services
+namespace CarSales.Services
 {
 	public class CustomerService : ICustomerService
 	{

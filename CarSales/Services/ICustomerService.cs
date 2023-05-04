@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using CarSales.Models;
 
-namespace CarSales.Data.Services
+namespace CarSales.Services
 {
 	public interface ICustomerService
 	{

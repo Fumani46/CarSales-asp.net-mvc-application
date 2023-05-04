@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using CarSales.Data.Services;
 using CarSales.Models;
+using CarSales.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +12,10 @@ namespace CarSales.Controllers
         private readonly SignInManager<Customer> _signInManager;
         private readonly ICustomerService _service;
 
-        public CustomerController(UserManager<Customer> userManager, SignInManager<Customer> signInManager, ICustomerService service)
+        public CustomerController(ICustomerService service/*UserManager<Customer> userManager, SignInManager<Customer> signInManager, */)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+           // _userManager = userManager;
+            //_signInManager = signInManager;
             _service = service;
         }
 
