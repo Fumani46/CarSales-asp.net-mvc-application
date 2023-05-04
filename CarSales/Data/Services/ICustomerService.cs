@@ -6,10 +6,12 @@ namespace CarSales.Data.Services
 {
 	public interface ICustomerService
 	{
-		Task<List<Customer>> GetAll();
+		public Task<List<Customer>> GetAll();
 
-		Customer GetById(int id);
+		public Customer GetById(int id);
 
-		void Add(Customer customer);
+		public void Add(Customer customer);
+
+		public Task<Customer> GetUserByEmail(string email);
 	}
 }

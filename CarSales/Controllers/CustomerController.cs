@@ -39,7 +39,8 @@ namespace CarSales.Controllers
                 return View(customer);
             }
 
-            var user = await _userManager.FindByEmailAsync(customer.Email);
+            //var user = await _userManager.FindByEmailAsync(customer.Email);
+            var user = await _service.GetUserByEmail(customer.Email);
             if (user != null)
             {
                 TempData["Error"] = "This email address is already in use";

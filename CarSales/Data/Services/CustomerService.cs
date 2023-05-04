@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CarSales.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace CarSales.Data.Services
 {
@@ -31,6 +32,12 @@ namespace CarSales.Data.Services
 			throw new System.NotImplementedException();
 		}
 
+		public async Task<Customer> GetUserByEmail(string email)
+		{
+			var user = (await _context.Customers.ToListAsync()).FirstOrDefault(x => x.Email == email);
+
+			return user;
+		}
 
 	}
 }
