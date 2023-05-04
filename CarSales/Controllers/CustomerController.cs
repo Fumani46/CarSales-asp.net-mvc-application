@@ -3,6 +3,7 @@ using CarSales.Models;
 using CarSales.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace CarSales.Controllers
 {
@@ -43,7 +44,8 @@ namespace CarSales.Controllers
             var user = await _service.GetUserByEmail(customer.Email);
             if (user != null)
             {
-                TempData["Error"] = "This email address is already in use";
+                ModelState.AddModelError(string.Empty,"This email address is already in use");
+                //TempData["Error"] = "This email address is already in use";
                 return View(customer);
             }
 
