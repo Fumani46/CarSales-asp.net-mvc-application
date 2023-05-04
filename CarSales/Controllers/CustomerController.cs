@@ -1,16 +1,21 @@
 ﻿using System.Threading.Tasks;
 using CarSales.Data.Services;
 using CarSales.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarSales.Controllers
 {
     public class CustomerController : Controller
     {
+        private readonly UserManager<Customer> _userManager;
+        private readonly SignInManager<Customer> _signInManager;
         private readonly ICustomerService _service;
 
-        public CustomerController(ICustomerService service)
+        public CustomerController(UserManager<Customer> userManager, SignInManager<Customer> signInManager, ICustomerService service)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
             _service = service;
         }
 
@@ -29,7 +34,34 @@ namespace CarSales.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([Bind("FirstName,LastName,Email,Password")] Customer customer)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
+                return View(customer);
+            }
+
+            var user = await _userManager.FindByEmailAsync(customer.Email);
+            if (user != null)
+            {
+                TempData["Error"] = "This email address is already in use";
+                return View(customer);
+            }
+
+            _service.Add(customer);
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login([Bind("Email,Password")] Customer customer)
+        {
+            if (!ModelState.IsValid)
             {
                 return View(customer);
             }
@@ -37,14 +69,7 @@ namespace CarSales.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
         /*
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-
         [HttpPost]
         public async Task<IActionResult> Login(Customer model, string returnUrl)
         {

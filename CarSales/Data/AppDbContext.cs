@@ -1,4 +1,5 @@
 ﻿using CarSales.Models;
+using CarSales.Models.Items;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarSales.Data
@@ -17,9 +18,27 @@ namespace CarSales.Data
                 am.Id
             });
 
+            modelBuilder.Entity<Car>().HasKey(am => new
+            {
+                am.Id
+            });
+
+            modelBuilder.Entity<Agent>().HasKey(am => new
+            {
+                am.EmpId
+            });
+
+            modelBuilder.Entity<Admin>().HasKey(am => new
+            {
+                am.EmpId
+            });
+
             base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<Agent> Agents { get; set; }
+        public DbSet<Admin> Admins { get; set; }
     }
 }

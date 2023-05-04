@@ -7,13 +7,20 @@ namespace CarSales.Models.Items
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string CarName { get; set; }
+        [Required]
         public string CarModel { get; set; }
+        [Required]
         public string Color { get; set; }
+        [Required]
         public DateTime Year { get; set; }
+        [Required]
         public string Type { get; set; }
-
-        public string Url { get; set; }
+        [Required]
+        public string PictureUrl { get; set; }
+        [Required]
+        public double Price { get; set; }
 
     }
 }
