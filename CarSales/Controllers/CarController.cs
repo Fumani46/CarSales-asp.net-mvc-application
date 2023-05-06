@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using CarSales.Data;
 using CarSales.Models.Items;
@@ -20,10 +19,10 @@ namespace CarSales.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var car = _context.Cars.ToList();
-            return View(car);
+            var data = await _service.GetAll();
+            return View(data);
         }
 
         public IActionResult Add()
@@ -47,7 +46,7 @@ namespace CarSales.Controllers
                 var user = await _service.GetById(car.CarId);
                 if (user != null)
                 {
-                    ModelState.AddModelError(string.Empty, "This email address is already in use");
+                    ModelState.AddModelError(string.Empty, "This Car is already in use");
                     //TempData["Error"] = "This email address is already in use";
                     return View(car);
                 }

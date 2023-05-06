@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CarSales.Data;
 using CarSales.Models.Items;
@@ -20,6 +21,11 @@ namespace CarSales.Services
 
         }
 
+        public async Task<List<Car>> GetAll()
+        {
+            var result = await _context.Cars.ToListAsync();
+            return result;
+        }
 
         async Task<Car> ICarService.GetById(int id)
         {
