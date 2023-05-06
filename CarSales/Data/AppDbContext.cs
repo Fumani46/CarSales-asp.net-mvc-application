@@ -15,12 +15,12 @@ namespace CarSales.Data
         {
             modelBuilder.Entity<Customer>().HasKey(am => new
             {
-                am.Id
+                am.CusId
             });
 
             modelBuilder.Entity<Car>().HasKey(am => new
             {
-                am.Id
+                am.CarId
             });
 
             modelBuilder.Entity<Agent>().HasKey(am => new

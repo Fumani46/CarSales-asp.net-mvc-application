@@ -1,0 +1,55 @@
+﻿@model CarSales.Models.Items.Car
+
+@{
+	ViewData["Title"] = "Add a new car";
+}
+
+<div class="row text">
+	<div class="col-md-8 offset-2">
+		<p1>Welcome To Car Sales</p1>
+	</div>
+	<div>
+		<div class="col-md-8 offset-2">
+			<form asp-action="Add">
+				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+				<div class="form-group">
+					<label asp-for="CarName"></label>
+					<input asp-for="CarName" class="form-control" />
+					<span asp-validation-for="CarName" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="CarModel"></label>
+					<input asp-for="CarModel" class="form-control" />
+					<span asp-validation-for="CarModel" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Color"></label>
+					<input asp-for="Color" class="form-control" />
+					<span asp-validation-for="Color" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Year"></label>
+					<input asp-for="Year" class="form-control" />
+					<span asp-validation-for="Year" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Type"></label>
+					<input asp-for="Type" class="form-control" />
+					<span asp-validation-for="Type" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="PictureUrl"></label>
+					<input asp-for="PictureUrl" class="form-control" />
+					<span asp-validation-for="PictureUrl" class="text-danger"></span>
+				</div>
+
+				<div class="form-group">
+					<input type="submit" value="Add" class="btn btn-outline-success float-right" />
+					<a class="btn btn-outline-secondary" asp-action="Index">Login</a>
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div>

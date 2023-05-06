@@ -5,7 +5,7 @@ namespace CarSales.Models
     public class Customer
     {
         [Key]
-        public int Id { get; set; }
+        public int CusId { get; set; }
 
 
         [Required(ErrorMessage = "First Name is required")]

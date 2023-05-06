@@ -6,7 +6,7 @@ namespace CarSales.Models.Items
     public class Car
     {
         [Key]
-        public int Id { get; set; }
+        public int CarId { get; set; }
         [Required]
         public string CarName { get; set; }
         [Required]
