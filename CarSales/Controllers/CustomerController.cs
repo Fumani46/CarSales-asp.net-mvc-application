@@ -58,6 +58,11 @@ namespace CarSales.Controllers
                     //TempData["Error"] = "This email address is already in use";
                     return View(customer);
                 }
+                else if (customer.Password != customer.ConfirmPassword)
+                {
+                    ModelState.AddModelError(string.Empty, "Password does not match");
+                    return View(customer);
+                }
 
                 await _service.AddCustomer(customer);
                 transaction.Commit();
@@ -83,22 +88,32 @@ namespace CarSales.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(Customer customer)
         {
-            var user = _context.Customers.Single(x => x.Email == customer.Email && x.Password == customer.Password);
-            if (user != null)
+            try
             {
-                HttpContext.Session.SetString("CusId", customer.CusId.ToString());
-                HttpContext.Session.SetString("Email", customer.Email.ToString());
-                RedirectToAction("LoggedIn");
+                var user = _context.Customers.Single(x => x.Email == customer.Email && x.Password == customer.Password);
+                if (user != null)
+                {
+                    HttpContext.Session.SetString("CusId", customer.CusId.ToString());
+                    HttpContext.Session.SetString("Email", customer.Email.ToString());
+                    return RedirectToAction("Index", "Car");
 
+                }
+                else
+                {
+                    ModelState.AddModelError(String.Empty, "Email or Password is invalid");
+                    return View();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ModelState.AddModelError("", "Email or Password is invalid");
+                ModelState.AddModelError(string.Empty, "Something went wrong");
+
+                return View();
             }
-            return View();
 
         }
 
+        /*
         public ActionResult LoggedIn()
         {
             if (HttpContext.Session.Equals("CusId"))
@@ -108,7 +123,7 @@ namespace CarSales.Controllers
             return View();
 
         }
-        /*
+        
         [HttpPost]
         public async Task<IActionResult> Login(Customer model, string returnUrl)
         {
