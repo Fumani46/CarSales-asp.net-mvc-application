@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CarSales.Data;
 using CarSales.Models;
 using CarSales.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -37,7 +39,7 @@ namespace CarSales.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,Email,Password")] Customer customer)
+        public async Task<IActionResult> Create(Customer customer)
         {
             if (!ModelState.IsValid)
             {
@@ -71,47 +73,41 @@ namespace CarSales.Controllers
             }
         }
 
-
-
-        [HttpGet]
-        public IActionResult Login()
+        public ActionResult Login()
         {
             return View();
         }
 
+
+
         [HttpPost]
-        public async Task<IActionResult> Login([Bind("Email,Password")] Customer customer)
+        public async Task<IActionResult> Login(Customer customer)
         {
-            if (!ModelState.IsValid)
+            var user = _context.Customers.Single(x => x.Email == customer.Email && x.Password == customer.Password);
+            if (user != null)
             {
-                ModelState.AddModelError(string.Empty, "Error");
-                return View(customer);
+                HttpContext.Session.SetString("CusId", customer.CusId.ToString());
+                HttpContext.Session.SetString("Email", customer.Email.ToString());
+                RedirectToAction("LoggedIn");
 
             }
-
-            //_service.AddCustomer(customer);
-            try
+            else
             {
-                //var user = await _userManager.FindByEmailAsync(customer.Email);
-                var user = await _service.GetUserByEmail(customer.Email);
-                if (user != null)
-                {
-                    //TempData["Error"] = "This email address is already in use";
-                    if (user.Email == "Email" && user.Password == "Password")
-                        return RedirectToAction(nameof(Index));
-                }
-                return View(customer);
-
+                ModelState.AddModelError("", "Email or Password is invalid");
             }
-            catch (Exception ex)
-            {
+            return View();
 
-                ModelState.AddModelError(string.Empty, "Something went wrong :(");
-
-                return View(customer);
-            }
         }
 
+        public ActionResult LoggedIn()
+        {
+            if (HttpContext.Session.Equals("CusId"))
+            {
+                return RedirectToAction("/Car/Index");
+            }
+            return View();
+
+        }
         /*
         [HttpPost]
         public async Task<IActionResult> Login(Customer model, string returnUrl)

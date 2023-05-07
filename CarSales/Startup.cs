@@ -29,6 +29,9 @@ namespace CarSales
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ICarService, CarService>();
 
+            //Session
+            services.AddSession();
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 
@@ -53,6 +56,7 @@ namespace CarSales
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseAuthorization();
 
