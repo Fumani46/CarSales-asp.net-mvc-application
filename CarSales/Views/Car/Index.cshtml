@@ -5,15 +5,13 @@
         ViewData["Title"] = "Car Sales";
     }
 
-<h1>Cars for Sale</h1>
+<h1 style="text-align:center; margin-bottom:5%">Cars for Sale</h1>
 
-<div class="row">
-    @foreach(var item in Model)
-    {
+
         <div class="row">
             @foreach (var items in Model)
             {
-                <div class="col-md-4 col-xs-6 border-primary mb-3">
+                <div class="col-md-4 col-xs-6 border-primary mb-4">
                     <div class="card mb-3" style="max-width: 540px;">
                         <div class="row g-0">
                             <div class="col-md-12">
@@ -43,9 +41,6 @@
                             <div class="col-md-12">
                                 <div class="card-footer ">
                                     <p class="card-text">
-                                        <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@items.CarId">
-                                            <i class="bi bi-eye-fill"></i> Show Details
-                                        </a>
                                         <a class="btn btn-success text-white
                                    asp-controller="Orders"
                                    asp-action="AddItemToShoppingCart"
@@ -60,6 +55,5 @@
                 </div>
             }
         </div>
-    }
-</div>
+
 

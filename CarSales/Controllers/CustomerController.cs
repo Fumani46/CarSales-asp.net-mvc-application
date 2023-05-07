@@ -5,7 +5,6 @@ using CarSales.Models;
 using CarSales.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CarSales.Controllers
@@ -19,7 +18,7 @@ namespace CarSales.Controllers
 
         public CustomerController(ICustomerService service, AppDbContext context/*UserManager<Customer> userManager, SignInManager<Customer> signInManager, */)
         {
-           // _userManager = userManager;
+            // _userManager = userManager;
             //_signInManager = signInManager;
             _service = service;
             _context = context;
@@ -85,10 +84,32 @@ namespace CarSales.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError(string.Empty, "Error");
+                return View(customer);
+
+            }
+
+            //_service.AddCustomer(customer);
+            try
+            {
+                //var user = await _userManager.FindByEmailAsync(customer.Email);
+                var user = await _service.GetUserByEmail(customer.Email);
+                if (user != null)
+                {
+                    //TempData["Error"] = "This email address is already in use";
+                    if (user.Email == "Email" && user.Password == "Password")
+                        return RedirectToAction(nameof(Index));
+                }
+                return View(customer);
+
+            }
+            catch (Exception ex)
+            {
+
+                ModelState.AddModelError(string.Empty, "Something went wrong :(");
+
                 return View(customer);
             }
-            //_service.AddCustomer(customer);
-            return RedirectToAction(nameof(Index));
         }
 
         /*

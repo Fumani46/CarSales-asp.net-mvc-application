@@ -27,8 +27,13 @@ namespace CarSales
 
             //Services Config
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<ICarService, CarService>();
+
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
 
             services.AddControllersWithViews();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
