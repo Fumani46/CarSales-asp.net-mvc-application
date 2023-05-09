@@ -1,17 +1,19 @@
-﻿using CarSales.Data;
+﻿using System;
+using System.Threading.Tasks;
+using CarSales.Data;
 using CarSales.Enums;
 using CarSales.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading.Tasks;
 
 namespace CarSales.Services
 {
     public class OrdersManagement : IOrdersManagement
     {
         private readonly AppDbContext _context;
-        public OrdersManagement(AppDbContext dbContext)
+        private readonly ICarService _carService;
+        public OrdersManagement(ICarService carService, AppDbContext dbContext)
         {
+            _carService = carService;
             _context = dbContext;
         }
 
@@ -24,9 +26,14 @@ namespace CarSales.Services
 
         public async Task CreateNewOrder(int customerId, int carId, double carPrice)
         {
+            var car = await _carService.GetById(carId);
+
             var newOrder = new Order
             {
                 CarId = carId,
+                CarName = car.CarName,
+                CarModel = car.CarModel,
+                CarPrice = car.Price,
                 CustomerId = customerId,
                 Quantity = 1,
                 TotalAmount = carPrice,
@@ -67,7 +74,7 @@ namespace CarSales.Services
         public async Task CompleteOrder(int customerId, int carId)
         {
             var order = await GetOrderByCustomerIdAndCarId(customerId, carId);
-            if(order != null)
+            if (order != null)
             {
                 order.Status = OrderStatus.Complete;
             }

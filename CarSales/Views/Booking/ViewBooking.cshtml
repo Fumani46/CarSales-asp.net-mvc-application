@@ -1,0 +1,33 @@
+﻿@model List<Booking>
+
+@{
+    ViewData["Title"] = "Shopping cart summary";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <div class="text-center">
+            <h2>You shopping cart summary</h2>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Car Name</th>
+                    <th>Car Model</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var items in Model)
+                {
+                    <tr>
+                        <td class="align-middle">@items.CarName</td>
+                        <td class="align-middle">@items.CarModel</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+</div>

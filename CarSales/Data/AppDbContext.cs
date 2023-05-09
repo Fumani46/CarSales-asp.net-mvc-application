@@ -32,6 +32,14 @@ namespace CarSales.Data
             {
                 am.EmpId
             });
+            modelBuilder.Entity<Order>().HasKey(am => new
+            {
+                am.Id
+            });
+            modelBuilder.Entity<Booking>().HasKey(am => new
+            {
+                am.BookingId
+            });
 
             base.OnModelCreating(modelBuilder);
         }
@@ -45,5 +53,6 @@ namespace CarSales.Data
         public DbSet<Admin> Admins { get; set; }
 
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
     }
 }

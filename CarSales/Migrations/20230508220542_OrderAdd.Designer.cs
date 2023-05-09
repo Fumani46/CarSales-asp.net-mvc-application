@@ -4,14 +4,16 @@ using CarSales.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarSales.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230508220542_OrderAdd")]
+    partial class OrderAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,30 +75,6 @@ namespace CarSales.Migrations
                     b.HasKey("EmpId");
 
                     b.ToTable("Agents");
-                });
-
-            modelBuilder.Entity("CarSales.Models.Booking", b =>
-                {
-                    b.Property<int>("BookingId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("CarId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CarModel")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CarName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CusId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("BookingId");
-
-                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("CarSales.Models.Customer", b =>

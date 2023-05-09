@@ -30,6 +30,7 @@ namespace CarSales
             services.AddScoped<ICarService, CarService>();
             services.AddScoped<IOrdersManagement, OrdersManagement>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IBookingManagement, BookingManagement>();
 
             //Session
             services.AddSession();

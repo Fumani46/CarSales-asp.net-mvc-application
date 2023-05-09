@@ -1,13 +1,18 @@
-﻿using CarSales.Enums;
-using System;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using CarSales.Enums;
 
 namespace CarSales.Models
 {
     public class Order
     {
+        [Key]
         public int Id { get; set; }
 
         public int CarId { get; set; }
+        public string CarName { get; set; }
+        public string CarModel { get; set; }
+        public double CarPrice { get; set; }
 
         public int CustomerId { get; set; }
 
