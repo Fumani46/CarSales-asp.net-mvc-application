@@ -28,6 +28,7 @@ namespace CarSales
             //Services Config
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<ICarService, CarService>();
+            services.AddScoped<IOrdersManagement, OrdersManagement>();
             services.AddScoped<IAdminService, AdminService>();
 
             //Session
