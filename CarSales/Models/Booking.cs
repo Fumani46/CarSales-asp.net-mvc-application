@@ -6,12 +6,12 @@ namespace CarSales.Models
     {
         [Key]
         public int BookingId { get; set; }
-        public string CarId { get; set; }
+        public int CarId { get; set; }
         public string CarName { get; set; }
 
         public string CarModel { get; set; }
 
-        public string CusId { get; set; }
+        public int CusId { get; set; }
 
 
     }

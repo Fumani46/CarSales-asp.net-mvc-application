@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CarSales.Data;
 using CarSales.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarSales.Services
 {
@@ -28,6 +29,14 @@ namespace CarSales.Services
 
             _context.Add(newOrder);
             await _context.SaveChangesAsync();
+        }
+
+
+        public async Task<Booking> GetBookingByCustomerId(int customerId)
+        {
+            var order = await _context.Bookings.FirstOrDefaultAsync(x => x.CusId == customerId);
+
+            return order;
         }
     }
 }

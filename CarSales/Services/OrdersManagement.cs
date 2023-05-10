@@ -24,6 +24,13 @@ namespace CarSales.Services
             return order;
         }
 
+        public async Task<Order> GetOrderByCustomerId(int customerId)
+        {
+            var order = await _context.Orders.FirstOrDefaultAsync(x => x.CustomerId == customerId);
+
+            return order;
+        }
+
         public async Task CreateNewOrder(int customerId, int carId, double carPrice)
         {
             var car = await _carService.GetById(carId);

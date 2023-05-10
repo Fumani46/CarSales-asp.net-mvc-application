@@ -35,9 +35,17 @@ namespace CarSales.Controllers
             //var user = await _carService.GetById(CarId);
 
             _service.CreateNewOrder(CasIdLogged, GetCar.CarId, GetCar.Price);
-            return RedirectToAction("Index", "Car");
+            return View();
 
         }
 
+        public async Task<IActionResult> GetOrder(int CusId)
+
+        {
+            var CasIdLogged = (int)HttpContext.Session.GetInt32("CusId");
+
+            var data = await _service.GetOrderByCustomerId(CasIdLogged);
+            return View(data);
+        }
     }
 }

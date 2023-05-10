@@ -1,11 +1,12 @@
-﻿using CarSales.Models;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using CarSales.Models;
 
 namespace CarSales.Services
 {
     public interface IOrdersManagement
     {
         public Task<Order> GetOrderByCustomerIdAndCarId(int customerId, int carId);
+        public Task<Order> GetOrderByCustomerId(int customerId);
 
         public Task CreateNewOrder(int customerId, int carId, double carPrice);
 

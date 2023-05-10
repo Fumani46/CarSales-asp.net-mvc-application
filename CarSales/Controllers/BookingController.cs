@@ -43,5 +43,14 @@ namespace CarSales.Controllers
 
         }
 
+        public async Task<IActionResult> GetOrder(int CusId)
+
+        {
+            var CasIdLogged = (int)HttpContext.Session.GetInt32("CusId");
+
+            var data = await _service.GetBookingByCustomerId(CasIdLogged);
+            return View(data);
+        }
+
     }
 }
