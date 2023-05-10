@@ -41,10 +41,8 @@
                             <div class="col-md-12">
                                 <div class="card-footer ">
                                     <p class="card-text">
-                                        <a class="btn btn-success text-white
-                                   asp-controller="OrderController"
-                                   asp-action="CreateOrder"
-                                   asp-route-id="@items.CarId">
+                                        <a class="btn btn-success text-white"
+                                   onclick="window.location='@Url.Action("CreateOrder","Order",new{carId = items.CarId})'">
                                             <i class="bi bi-cart-plus"></i> Add to Cart ( @items.Price.ToString("c"))
                                         </a>
                                     </p>
