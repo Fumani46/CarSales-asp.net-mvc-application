@@ -30,17 +30,17 @@ namespace CarSales.Controllers
         {
             var GetCar = await _context.Cars.FirstOrDefaultAsync(x => x.CarId == CarId);
 
-            //var CasIdLogged = (int)HttpContext.Session.GetInt32("CusId");
+            var CasIdLogged = (int)HttpContext.Session.GetInt32("CusId");
 
             //var user = await _carService.GetById(CarId);
 
-            await _service.CreateNewOrder(2, GetCar.CarId, GetCar.Price);
+            await _service.CreateNewOrder(CasIdLogged, GetCar.CarId, GetCar.Price);
             //Testing with Add view
             return RedirectToAction("Create", "Order");
 
         }
 
-        public async Task<IActionResult> GetOrder(int CusId)
+        public async Task<IActionResult> Create()
 
         {
             var CasIdLogged = (int)HttpContext.Session.GetInt32("CusId");

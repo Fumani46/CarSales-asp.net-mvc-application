@@ -95,8 +95,6 @@ namespace CarSales.Controllers
                 {
                     HttpContext.Session.SetInt32("CusId", customer.CusId);
                     HttpContext.Session.SetString("Email", customer.Email.ToString());
-                    HttpContext.Session.SetString("FirstName", customer.FirstName.ToString());
-                    HttpContext.Session.SetString("LastName", customer.LastName.ToString());
                     return RedirectToAction("Index", "Car");
 
                 }

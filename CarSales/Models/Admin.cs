@@ -12,10 +12,14 @@ namespace CarSales.Models
         public string LastName { get; set; }
         [Required]
         public string Email { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
-
+        [Required(ErrorMessage = "Confirm your password")]
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
     }
 }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CarSales.Data;
 using CarSales.Enums;
@@ -24,9 +26,9 @@ namespace CarSales.Services
             return order;
         }
 
-        public async Task<Order> GetOrderByCustomerId(int customerId)
+        public async Task<List<Order>> GetOrderByCustomerId(int customerId)
         {
-            var order = await _context.Orders.FirstOrDefaultAsync(x => x.CustomerId == customerId);
+            var order = await _context.Orders.Where(x => x.CustomerId == customerId).ToListAsync();
 
             return order;
         }
@@ -34,22 +36,30 @@ namespace CarSales.Services
         public async Task CreateNewOrder(int customerId, int carId, double carPrice)
         {
             var car = await _carService.GetById(carId);
+            var order = await GetOrderByCustomerIdAndCarId(customerId, carId);
 
-            var newOrder = new Order
+            if (order != null)
             {
-                CarId = carId,
-                CarName = car.CarName,
-                CarModel = car.CarModel,
-                CarPrice = car.Price,
-                CustomerId = customerId,
-                Quantity = 1,
-                TotalAmount = carPrice,
-                CreateDate = DateTime.Now,
-                LastModified = DateTime.Now,
-                Status = OrderStatus.InCart
-            };
+                await UpdateOrder(customerId, carId, order.Quantity);
+            }
+            else if (order == null)
+            {
+                var newOrder = new Order
+                {
+                    CarId = carId,
+                    CarName = car.CarName,
+                    CarModel = car.CarModel,
+                    CarPrice = car.Price,
+                    CustomerId = customerId,
+                    Quantity = 1,
+                    TotalAmount = carPrice,
+                    CreateDate = DateTime.Now,
+                    LastModified = DateTime.Now,
+                    Status = OrderStatus.InCart
+                };
+                _context.Add(newOrder);
 
-            _context.Add(newOrder);
+            }
             await _context.SaveChangesAsync();
         }
 

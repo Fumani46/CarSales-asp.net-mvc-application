@@ -6,6 +6,7 @@ using CarSales.Models;
 using CarSales.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CarSales.Controllers
 {
@@ -22,6 +23,54 @@ namespace CarSales.Controllers
             _service = service;
             _context = context;
         }
+
+        //Get: Customers/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Admin admin)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError(string.Empty, "Error");
+                return View(admin);
+            }
+
+            IDbContextTransaction transaction = _context.Database.BeginTransaction();
+            try
+            {
+                //var user = await _userManager.FindByEmailAsync(customer.Email);
+                var user = await _service.GetUserByEmail(admin.Email);
+                if (user != null)
+                {
+                    ModelState.AddModelError(string.Empty, "This email address is already in use");
+                    //TempData["Error"] = "This email address is already in use";
+                    return View(admin);
+                }
+                else if (admin.Password != admin.ConfirmPassword)
+                {
+                    ModelState.AddModelError(string.Empty, "Password does not match");
+                    return View(admin);
+                }
+
+                await _service.AddAdmin(admin);
+                transaction.Commit();
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                ModelState.AddModelError(string.Empty, "Something went wrong :(");
+
+                return View(admin);
+            }
+        }
+
+
         public ActionResult Login()
         {
             return View();

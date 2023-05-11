@@ -16,7 +16,8 @@
                     <th>Car Name</th>
                     <th>Car Model</th>
                     <th>Price</th>
-                    <th></th>
+                    <th>Quantity</th>
+                    <th>TotalPrice</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,8 +27,11 @@
                         <td class="align-middle">@items.CarName</td>
                         <td class="align-middle">@items.CarModel</td>
                         <td class="align-middle">@items.CarPrice.ToString("c")</td>
+                        <td class="align-middle">@items.Quantity</td>
+                        <td class="align-middle">@items.TotalAmount</td>
                     </tr>
                 }
+
             </tbody>
  
         </table>
